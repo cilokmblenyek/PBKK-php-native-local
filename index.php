@@ -32,7 +32,7 @@ if ($action == 'create') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP CRUD Application</title>
+    <title>PHP LOCAL CRUD AHMAD FATIH R | 191</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -48,21 +48,30 @@ if ($action == 'create') {
 
 <h2>PHP CRUD Application</h2>
 
+<?php
+// If editing, pre-fill the form with existing values
+$isEdit = $action == 'edit';
+$itemName = $isEdit ? $items[$_POST['index']]['itemName'] : '';
+$itemDescription = $isEdit ? $items[$_POST['index']]['itemDescription'] : '';
+$itemId = $isEdit ? $items[$_POST['index']]['id'] : '';
+$index = $isEdit ? $_POST['index'] : '';
+?>
+
 <!-- Form to Add/Update Item -->
-<form id="itemForm" method="POST" action="index.php">
-    <input type="hidden" name="action" value="create" id="formAction">
-    <input type="hidden" name="index" id="itemIndex">
-    <input type="hidden" name="id" id="itemId"> <!-- Hidden field to store the item ID -->
+<form method="POST" action="index.php">
+    <input type="hidden" name="action" value="<?php echo $isEdit ? 'update' : 'create'; ?>">
+    <input type="hidden" name="index" value="<?php echo $index; ?>">
+    <input type="hidden" name="id" value="<?php echo $itemId; ?>"> <!-- Hidden field to store the item ID -->
     <label for="itemName">Item Name:</label>
-    <input type="text" id="itemName" name="itemName" required><br><br>
+    <input type="text" id="itemName" name="itemName" value="<?php echo htmlspecialchars($itemName); ?>" required><br><br>
     <label for="itemDescription">Item Description:</label>
-    <input type="text" id="itemDescription" name="itemDescription" required><br><br>
-    <button type="submit">Submit</button>
+    <input type="text" id="itemDescription" name="itemDescription" value="<?php echo htmlspecialchars($itemDescription); ?>" required><br><br>
+    <button type="submit"><?php echo $isEdit ? 'Update' : 'Create'; ?></button>
     <input type="hidden" name="items" value="<?php echo htmlspecialchars(serialize($items)); ?>">
 </form>
 
 <!-- Display Items in a Table -->
-<table id="itemTable">
+<table>
     <thead>
         <tr>
             <th>ID</th>
@@ -78,12 +87,15 @@ if ($action == 'create') {
             <td><?php echo htmlspecialchars($item['itemName']); ?></td>
             <td><?php echo htmlspecialchars($item['itemDescription']); ?></td>
             <td>
-                <button class="editBtn" 
-                    data-index="<?php echo $index; ?>" 
-                    data-id="<?php echo htmlspecialchars($item['id']); ?>" 
-                    data-name="<?php echo htmlspecialchars($item['itemName']); ?>" 
-                    data-description="<?php echo htmlspecialchars($item['itemDescription']); ?>">Edit</button>
+                <!-- Edit form -->
+                <form style="display:inline;" method="POST" action="index.php">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="index" value="<?php echo $index; ?>">
+                    <input type="hidden" name="items" value="<?php echo htmlspecialchars(serialize($items)); ?>">
+                    <button type="submit">Edit</button>
+                </form>
 
+                <!-- Delete form -->
                 <form style="display:inline;" method="POST" action="index.php">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="index" value="<?php echo $index; ?>">
@@ -95,29 +107,6 @@ if ($action == 'create') {
         <?php endforeach; ?>
     </tbody>
 </table>
-
-<script>
-// JavaScript to handle the Edit button functionality
-document.querySelectorAll('.editBtn').forEach(button => {
-    button.addEventListener('click', (event) => {
-        // Prevent default behavior
-        event.preventDefault();
-
-        // Get data from the button's attributes
-        const index = button.getAttribute('data-index');
-        const id = button.getAttribute('data-id');
-        const name = button.getAttribute('data-name');
-        const description = button.getAttribute('data-description');
-
-        // Populate the form with the item data for editing
-        document.getElementById('formAction').value = 'update';
-        document.getElementById('itemIndex').value = index;
-        document.getElementById('itemId').value = id; // Set the hidden ID field
-        document.getElementById('itemName').value = name;
-        document.getElementById('itemDescription').value = description;
-    });
-});
-</script>
 
 </body>
 </html>
