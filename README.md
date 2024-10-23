@@ -118,7 +118,3 @@ This simple PHP application allows users to **Create**, **Read**, **Update**, an
 4. Add, edit, or delete items using the form and buttons on the page.
 
 This application demonstrates basic CRUD operations in PHP, providing a clear example of how to manage data using PHP arrays and form handling.
-
---- 
-
-This `README` provides a comprehensive overview of the functionality and inner workings of the PHP CRUD application.
