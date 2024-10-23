@@ -1,7 +1,3 @@
-Here's a detailed explanation of the code to include in your `README` file. It explains how the PHP CRUD application works and provides insights into each functionality step by step.
-
----
-
 # PHP CRUD Application
 
 This simple PHP application allows users to **Create**, **Read**, **Update**, and **Delete** (CRUD) items. The application is built using only PHP and HTML, without JavaScript. It demonstrates how to store, manipulate, and display data using an in-memory array. All data is passed through form submissions and processed on the server.
